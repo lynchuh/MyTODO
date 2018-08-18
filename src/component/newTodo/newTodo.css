@@ -1,0 +1,18 @@
+.inputWrapper {
+    width:100%;
+    display:flex;
+    justify-content: center;
+    margin: 0 16px ;
+}
+.inputWrapper input{
+    width:60%;
+    padding:0 6px;
+    border:none;
+    border-bottom: 1px solid #ddd;
+}
+.inputWrapper input:focus{
+    outline:none;
+}
+.inputWrapper button{
+margin-left:50px;
+}
