@@ -23,10 +23,27 @@ export default class App extends Component {
   }
   render() {
     let todos= this.state.todoList.map((todoItem,index)=>{
+      if(!todoItem.isDelete){
       return (
       <li key={index} >
-        <Todoitem  item={todoItem} toggleStatus={this.handleToggleStatus.bind(this)} status={todoItem.finishStatus}></Todoitem>
+        <Todoitem  item={todoItem} onChange={this.toggleCompletedStatus.bind(this)} status={todoItem.finishStatus} onClick={this.toggleDeletedStatus.bind(this)} value="删除"></Todoitem>
       </li>)
+      }
+    })
+
+    let deleteTodo =this.state.todoList.map((todoItem,index)=>{
+      if(!!todoItem.isDelete){
+        return(
+          <li key={index} >
+          <Todoitem  
+          item={todoItem}  
+          status={todoItem.finishStatus} 
+          onClick={this.toggleDeletedStatus.bind(this)} 
+          value="恢复">
+          </Todoitem>
+        </li>
+        )
+      }
     })
     return (
       <div className="App">
@@ -39,6 +56,10 @@ export default class App extends Component {
         <h2>全部事项</h2>
           <ol >
             {todos}
+          </ol>
+          <h2>删除事项</h2>
+          <ol>
+            {deleteTodo}
           </ol>
         </div>
         </main>
@@ -69,10 +90,14 @@ export default class App extends Component {
 
 
   }
-  handleToggleStatus(e,item){
+  toggleCompletedStatus(e,item){
     item.finishStatus = !item.finishStatus
     this.setState(this.state)
     console.log(this.state)
+  }
+  toggleDeletedStatus(e,item){
+    item.isDelete=!item.isDelete
+    this.setState(this.state)
   }
 
 

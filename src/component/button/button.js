@@ -20,6 +20,7 @@ export default class Button extends React.Component{
         )
     }
     handleClick(event){
+        event.stopPropagation()
         let {clientX,clientY} = event  
         // console.log(React.findDOMNode(this.refs.button).focus())
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import './todoItem.css'
-
+import Button from '../button/button'
 
 export default class Todolist extends React.Component{
     constructor(props){
@@ -12,11 +12,15 @@ export default class Todolist extends React.Component{
             <div>
                 <input type="checkbox" onChange={this.handleChange.bind(this)}/>
                 <span className={!!this.props.status?'completed':''}>{this.props.item.content}</span>
+                <Button value={this.props.value} onClick={this.handleClick.bind(this)}></Button>
             </div>
             
         )
     }
     handleChange(event){
-        this.props.toggleStatus.call(null,event,this.props.item)
+        this.props.onChange.call(null,event,this.props.item)
+    }
+    handleClick(event){
+        this.props.onClick.call(null,event,this.props.item)
     }
 }
