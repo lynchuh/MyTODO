@@ -13,19 +13,20 @@ export default class Button extends React.Component{
     render(){
         let self= this
         return(
-            <button ref="button" className="button" onClick={this.changeClickState.bind(this)} onAnimationEnd={this.animationEnd.bind(this)}>
+            <button ref="button" className="button" onClick={this.handleClick.bind(this)} onAnimationEnd={this.animationEnd.bind(this)}>
                 {!!this.state.isClick ? <span className="circle"/> : ''}
                 <span className="value">{this.props.value}</span>
             </button>
         )
     }
-    changeClickState(event){
+    handleClick(event){
         let {clientX,clientY} = event  
         // console.log(React.findDOMNode(this.refs.button).focus())
 
         this.setState({
             isClick: true
         })
+        !!this.props.onClick && this.props.onClick.call(null,event)
     }
     animationEnd(){
         this.setState({

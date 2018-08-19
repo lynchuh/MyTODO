@@ -10,20 +10,7 @@ export default class App extends Component {
     super(props)
     this.state = {
       todoList:[
-        {
-          id:0,
-          content:'my first todo',
-          finishStatus:false,
-          createDate: '',
-          isDelete: false,
-        },
-        {
-          id:1,
-          content:'my second todo',
-          finishStatus:false,
-          createDate:'',
-          isDelete:false,
-        }
+
       ],
       newTodo:''
     }
@@ -41,7 +28,7 @@ export default class App extends Component {
           <h1 className="App-title">我的待办列表</h1>
         </header>
         <main>
-          <Newtodo value={this.state.newTodo} onChange={this.handleChange.bind(this)}></Newtodo>
+          <Newtodo value={this.state.newTodo} onChange={this.handleChange.bind(this)} onClick={this.handleClick.bind(this)}></Newtodo>
         <div className="todoList">
         <h2>全部事项</h2>
           <ol >
@@ -56,6 +43,25 @@ export default class App extends Component {
     this.setState({
       newTodo:event.target.value
     })
+  }
+  handleClick(event){
+    if(!!this.state.newTodo){
+      this.state.todoList.push({
+        id:this.state.todoList.length,
+        content:this.state.newTodo,
+        finishStatus:false,
+        createDate: new Date(),
+        isDelete:false,
+      })
+      this.setState({
+        todoList:this.state.todoList,
+        newTodo:''
+      })
+    }else{
+      alert('你还没告诉我你要做什么啦！')
+    }
+
+
   }
 
 
