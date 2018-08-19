@@ -7,8 +7,19 @@
   min-height: 100vh;
   display:flex;
   flex-direction: column;
-
+  position: relative;
 }
+.App .userDialogWrapper{
+  position: absolute;
+  width: 100%;
+  height:100%;
+}
+
+
+
+
+
+
 .App-header {
   background-color: #222;
   height: 60px;
@@ -52,4 +63,10 @@
 .App main .todoList .completed{
   text-decoration: line-through;
   color: grey;
+}
+.App main .todoList .deleted{
+color: grey
+}
+.App main .todoList .deleted input{
+  display: none;
 }
