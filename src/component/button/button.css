@@ -16,7 +16,6 @@
 .button .value{
     position: relative;
     z-index: 1;
-    /* color:red; */
 }
 .button .circle{
     display:block;

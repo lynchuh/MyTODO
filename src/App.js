@@ -10,7 +10,13 @@ export default class App extends Component {
     super(props)
     this.state = {
       todoList:[
-
+        {
+          id:0,
+          content:'你好',
+          finishStatus:false,
+          createDate: new Date(),
+          isDelete:false,
+        }
       ],
       newTodo:''
     }
@@ -19,7 +25,7 @@ export default class App extends Component {
     let todos= this.state.todoList.map((todoItem,index)=>{
       return (
       <li key={index} >
-        <Todoitem  item={todoItem}></Todoitem>
+        <Todoitem  item={todoItem} toggleStatus={this.handleToggleStatus.bind(this)} status={todoItem.finishStatus}></Todoitem>
       </li>)
     })
     return (
@@ -28,7 +34,7 @@ export default class App extends Component {
           <h1 className="App-title">我的待办列表</h1>
         </header>
         <main>
-          <Newtodo value={this.state.newTodo} onChange={this.handleChange.bind(this)} onClick={this.handleClick.bind(this)}></Newtodo>
+          <Newtodo value={this.state.newTodo} onChange={this.handleChange.bind(this)} onClick={this.handleAddClick.bind(this)}></Newtodo>
         <div className="todoList">
         <h2>全部事项</h2>
           <ol >
@@ -44,7 +50,7 @@ export default class App extends Component {
       newTodo:event.target.value
     })
   }
-  handleClick(event){
+  handleAddClick(event){
     if(!!this.state.newTodo){
       this.state.todoList.push({
         id:this.state.todoList.length,
@@ -63,7 +69,11 @@ export default class App extends Component {
 
 
   }
-
+  handleToggleStatus(e,item){
+    item.finishStatus = !item.finishStatus
+    this.setState(this.state)
+    console.log(this.state)
+  }
 
 
 

@@ -9,9 +9,14 @@ export default class Todolist extends React.Component{
     }
     render(){
         return(
-            
-            <span>{this.props.item.content}</span>
+            <div>
+                <input type="checkbox" onChange={this.handleChange.bind(this)}/>
+                <span className={!!this.props.status?'completed':''}>{this.props.item.content}</span>
+            </div>
             
         )
+    }
+    handleChange(event){
+        this.props.toggleStatus.call(null,event,this.props.item)
     }
 }
