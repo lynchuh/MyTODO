@@ -9,6 +9,11 @@
     padding:0 6px;
     border:none;
     border-bottom: 1px solid #ddd;
+    background-color: inherit;
+    color: white;
+    line-height: 32px;
+    height:32px;
+    font-size: 14px;
 }
 .inputWrapper input:focus{
     outline:none;
