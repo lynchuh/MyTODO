@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Button from '../../button/button'
-import FormItem from '../formItem/formItem'
+import FormItem from './FormItem/FormItem'
 
 
 

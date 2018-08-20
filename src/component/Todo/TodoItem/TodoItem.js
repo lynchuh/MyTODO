@@ -1,6 +1,6 @@
 import React from 'react'
-import './todoItem.css'
-import Button from '../button/button'
+import './TodoItem.css'
+import Button from '../../button/button'
 
 export default class Todolist extends React.Component{
     constructor(props){

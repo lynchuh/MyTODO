@@ -1,5 +1,5 @@
 import React from 'react'
-import './formItem.css'
+import './FormItem.css'
 
 export default class formItem extends React.Component{
   constructor(props){

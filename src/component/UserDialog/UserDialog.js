@@ -1,9 +1,9 @@
 import React from "react"
 
-import './UserDialog.css'
+import "./UserDialog.css"
 
-import SignForm from './signForm/signForm'
-import {signUp,signIn} from '../../leancloud'
+import SignForm from "./SignForm/SignForm"
+import {signUp,signIn} from "../../leancloud"
 
 export default class UserDialog extends React.Component {
     constructor(props) {

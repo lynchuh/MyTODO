@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import AV from  "leancloud-storage"
-import leancloud from "./leancloud";
 import "./App.css";
 import "normalize.css";
-import Newtodo from "./component/newTodo/newTodo";
-import Todoitem from "./component/todoItem/todoItem";
-import UserDialog from './component/UserDialog/UserDialog'
+import Newtodo from "./component/Todo/NewTodo/NewTodo"
+import Todoitem from "./component/Todo/TodoItem/TodoItem"
+import UserDialog from "./component/UserDialog/UserDialog"
 
 
 export default class App extends Component {

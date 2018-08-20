@@ -1,6 +1,6 @@
 import React from 'react'
-import './newTodo.css'
-import Button from '../button/button'
+import "./NewTodo.css"
+import Button from '../../button/button'
 
 
 export default class Newtodo extends React.Component{
