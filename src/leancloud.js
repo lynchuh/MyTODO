@@ -16,14 +16,13 @@ export function signUp ({userName,userEmail,passWord}){
   user.setUsername(userName)
   user.setPassword(passWord)
   user.setEmail(userEmail)
-  user.signUp().then(function(loginedUser){
+  return user.signUp().then(function(loginedUser){
     console.log(loginedUser)
+  },function(error){
+    console.log(error)
   })
-
+  
 }
-
-
-
 
 export function signIn ({userName,passWord}){
   return AV.User.logIn(userName,passWord).then(function(e){

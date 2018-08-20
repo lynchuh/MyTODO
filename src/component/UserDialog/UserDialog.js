@@ -1,31 +1,59 @@
 import React from "react"
+
 import './UserDialog.css'
-import SignIn from './SignIn/signIn'
-import SignUp from './SignUp/signUp'
+import SignForm from './signForm/signForm'
+
 // import {signUp} from ''
 
 export default class UserDialog extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            hasAccount: 'signIn',
+            status: 'signIn',
             formData:{
                 userName:'',
                 userEmail:'',
                 passWord:'',
-            }
+            },
+            signIn:[
+                {
+                    id:'userName',
+                    word:'用户名'
+                },
+                {
+                    id:'passWord',
+                    word:'密码'
+                },
+            ],
+            signUp:[
+                {
+                    id:'userName',
+                    word:'用户名'
+                },
+                {
+                    id:'userEmail',
+                    word:'邮箱'
+                },
+                {
+                    id:'passWord',
+                    word:'密码'
+                },
+            ]
         }
     }
     render() {
-        console.log(this.state.formData)
         return (
             <div className="userDialogWrapper">
                 <div className="userDialogContent">
                     <h1>Welcome</h1>
                     <div className="content">
-                        {this.state.hasAccount === 'signIn'
-                            ? <SignIn onChange={this.changeFormData.bind(this)}></SignIn>
-                            : <SignUp onChange={this.changeFormData.bind(this)}></SignUp>
+                        {
+                             <SignForm 
+                             onChange={this.changeFormData.bind(this)} 
+                             formItem={this.state[this.state.status]}
+                             onSubmit={this.handleSubmit.bind(this)}
+                             ></SignForm>
+                           
                         }
                     </div>
                     <nav >
@@ -50,23 +78,29 @@ export default class UserDialog extends React.Component {
     }
     handleClick(event) {
         this.setState({
-            hasAccount: event
+            status: event
                 .target
                 .getAttribute("data-account"),
-                formData:{
+            formData:{
                 userName:'',
                 userEmail:'',
                 passWord:'',
-            }
+            },
         })
     }
-    changeFormData(key,event){
+    handleSubmit(event){
+        console.log('dialog')
+        console.log(event)
+    }
+
+    changeFormData(keyword,event){
         let stateCopy =JSON.parse(JSON.stringify(this.state.formData))
-        stateCopy[key]=event.target.value
+        stateCopy[keyword]=event.target.value
         this.setState({
             formData: stateCopy
         })
 
     }
+
 
 }
