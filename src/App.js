@@ -22,7 +22,9 @@ export default class App extends Component {
         }
       ],
       newTodo: "",
-      userData:{}
+      userData:{
+        
+      }
     };
   }
   render() {
@@ -59,16 +61,15 @@ export default class App extends Component {
         );
       }
     });
-    console.log(this.state)
+    console.log(!!this.state.userData.id)
     return (
       <div className="App">
-        <UserDialog
-          onSignIn={this.handleSignIn.bind(this)}
-        ></UserDialog>
+        {!!this.state.userData.id ? null: <UserDialog onSignIn={this.handleSignIn.bind(this)} ></UserDialog>}
         <header className="App-header">
           <h1 className="App-title">我的待办列表</h1>
+          <div className="userData">
           <span>{!!this.state.userData.id?this.state.userData.username:''}</span>
-          
+          </div>
         </header>
         <main>
           <Newtodo
@@ -117,8 +118,6 @@ export default class App extends Component {
     this.setState(this.state);
   }
   handleSignIn(userData){
-    console.log('我是App')
-    console.log(userData)
     this.setState({
       userData:userData
     })
