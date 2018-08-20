@@ -24,6 +24,7 @@ ol,li{
 }
 .userDialogWrapper .userDialogContent h1{
   margin: 16px 0;
+  margin-bottom: 0;
 }
 .userDialogWrapper .userDialogContent .content {
   flex:1;
@@ -42,25 +43,6 @@ ol,li{
 .userDialogWrapper .userDialogContent .content button{
   margin: 8px 0; 
   margin-top: 18px;
-}
-.userDialogWrapper .userDialogContent .content form .formItem{
-  height: 35px;
-  display: flex;
-  flex-direction: column;
-  margin-bottom:5px;
-}
-.userDialogWrapper .userDialogContent .content form .formItem label{
-  position:absolute;
-}
-
-.userDialogWrapper .userDialogContent .content form .formItem input{
-  margin-top: auto;
-  border: none;
-  border-bottom: 1px solid #ddd;
-}
-
-.userDialogWrapper .userDialogContent .content form .formItem input:focus{
-  outline: none;
 }
 
 .userDialogWrapper .userDialogContent nav {
