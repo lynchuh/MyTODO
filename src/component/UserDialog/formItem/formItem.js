@@ -10,7 +10,7 @@ export default class formItem extends React.Component{
     return (
       <div className="formItem" >
         <label htmlFor={this.props.formItem.id}>{this.props.formItem.word}</label>
-        <input type={this.props.formItem.type} name={this.props.formItem.id} value={this.props.value} onChange={this.handleChange.bind(this,this.props.formItem.id)} />
+        <input type={this.props.formItem.type} name={this.props.formItem.id} value={this.props.value[this.props.formItem.id]} onChange={this.handleChange.bind(this,this.props.formItem.id)} />
       </div>
     )
   }

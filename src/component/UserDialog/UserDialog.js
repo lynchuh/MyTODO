@@ -34,12 +34,12 @@ export default class UserDialog extends React.Component {
                     <h1>Welcome</h1>
                     <div className="content">
                         {
-                             <SignForm 
-                             formItem={this.state[this.state.status]}
-                             onChange={this.changeFormData.bind(this)} 
-                             onSubmit={this.handleSubmit.bind(this)}
-
-                             ></SignForm>
+                            <SignForm 
+                                formItem={this.state[this.state.status]}
+                                onChange={this.changeFormData.bind(this)} 
+                                onSubmit={this.handleSubmit.bind(this)}
+                                value={this.state.formData}
+                            ></SignForm>
                            
                         }
                     </div>
@@ -68,6 +68,11 @@ export default class UserDialog extends React.Component {
             status: event
                 .target
                 .getAttribute("data-account"),
+            formData:{
+                userName:'',
+                userEmail:'',
+                passWord:'',
+            }
 
         })
     }
