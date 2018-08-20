@@ -3,7 +3,7 @@ import React from "react"
 import './UserDialog.css'
 import SignForm from './signForm/signForm'
 
-// import {signUp} from ''
+import {signUp,signIn} from '../../leancloud'
 
 export default class UserDialog extends React.Component {
     constructor(props) {
@@ -23,11 +23,11 @@ export default class UserDialog extends React.Component {
                 {id:'userName',word:'用户名',type:'text'},
                 {id:'userEmail',word:'邮箱',type:'email'},
                 {id:'passWord',word:'密码',type:'password'},
-            ]
+            ],
+            formItemStatus:false
         }
     }
     render() {
-        console.log(this.state.formData)
         return (
             <div className="userDialogWrapper">
                 <div className="userDialogContent">
@@ -38,7 +38,9 @@ export default class UserDialog extends React.Component {
                                 formItem={this.state[this.state.status]}
                                 onChange={this.changeFormData.bind(this)} 
                                 onSubmit={this.handleSubmit.bind(this)}
+                                onchangeLabelStatus={this.handleLabelStatus.bind(this)}
                                 value={this.state.formData}
+                                labelStatus= {this.state.formItemStatus}
                             ></SignForm>
                            
                         }
@@ -77,13 +79,32 @@ export default class UserDialog extends React.Component {
         })
     }
     handleSubmit(event){
-        console.log('dialog')
-        console.log(event.target)
+
+        if(this.state.status === 'signUp'){
+            let{userName,userEmail,passWord} =this.state.formData
+
+            signUp({
+                userName:userName,
+                userEmail:userEmail,
+                passWord:passWord
+            }).then((user)=>{
+                console.log(user)
+            },(error)=>{
+                console.log(error)
+            })
+        }else if(this.state.status === 'signIn'){
+            let{userName,passWord} =this.state.formData
+            signIn({
+                userName:userName,
+                passWord:passWord
+            }).then((user)=>{
+                console.log(user)
+            },(error)=>{
+                console.log(error)
+            })
+        }
     }
-    assignValue(item){
-        console.log(item)
-        return this.state.formData[item]
-    }
+    
     changeFormData(keyword,event){
         let stateCopy =JSON.parse(JSON.stringify(this.state.formData))
         stateCopy[keyword]=event.target.value
@@ -92,5 +113,16 @@ export default class UserDialog extends React.Component {
         })
 
     }
+    handleLabelStatus(event){
+        event.type === 'focus'  && this.setState({
+            formItemStatus: true
+        })
+        event.type=== 'blur' && !!event.target.value && this.setState({
+            formItemStatus: true
+        })
+        event.type=== 'blur' && !event.target.value && this.setState({
+            formItemStatus: false
+        })
+     }
 
 }
