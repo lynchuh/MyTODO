@@ -21,7 +21,8 @@ export default class App extends Component {
           isDelete: false
         }
       ],
-      newTodo: ""
+      newTodo: "",
+      userData:{}
     };
   }
   render() {
@@ -58,11 +59,16 @@ export default class App extends Component {
         );
       }
     });
+    console.log(this.state)
     return (
       <div className="App">
-        <UserDialog></UserDialog>
+        <UserDialog
+          onSignIn={this.handleSignIn.bind(this)}
+        ></UserDialog>
         <header className="App-header">
           <h1 className="App-title">我的待办列表</h1>
+          <span>{!!this.state.userData.id?this.state.userData.username:''}</span>
+          
         </header>
         <main>
           <Newtodo
@@ -104,14 +110,17 @@ export default class App extends Component {
   }
   toggleCompletedStatus(e, item) {
     item.finishStatus = !item.finishStatus;
-
     this.setState(this.state);
-    console.log(this.state);
   }
   toggleDeletedStatus(e, item) {
     item.isDelete = !item.isDelete;
     this.setState(this.state);
-    console.log(this.state);
   }
-
+  handleSignIn(userData){
+    console.log('我是App')
+    console.log(userData)
+    this.setState({
+      userData:userData
+    })
+  }
 }

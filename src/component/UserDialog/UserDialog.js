@@ -1,8 +1,8 @@
 import React from "react"
 
 import './UserDialog.css'
-import SignForm from './signForm/signForm'
 
+import SignForm from './signForm/signForm'
 import {signUp,signIn} from '../../leancloud'
 
 export default class UserDialog extends React.Component {
@@ -99,6 +99,9 @@ export default class UserDialog extends React.Component {
                 passWord:passWord
             }).then((user)=>{
                 console.log(user)
+
+                let userData = {id:user.id,...user.attributes}
+                this.props.onSignIn && this.props.onSignIn.call(null,userData)
             },(error)=>{
                 console.log(error)
             })
