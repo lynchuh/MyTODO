@@ -5,7 +5,7 @@ import "./App.css";
 import "normalize.css";
 import Newtodo from "./component/newTodo/newTodo";
 import Todoitem from "./component/todoItem/todoItem";
-import UserDialog from './UserDialog/UserDialog'
+import UserDialog from './component/UserDialog/UserDialog'
 
 
 export default class App extends Component {

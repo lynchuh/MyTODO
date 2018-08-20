@@ -28,7 +28,6 @@ ol,li{
 .userDialogWrapper .userDialogContent .content {
   flex:1;
   width: 100%;
-  border: 1px solid red;
 }
 .userDialogWrapper .userDialogContent .content form{
   width: 100%;
@@ -46,7 +45,6 @@ ol,li{
 }
 .userDialogWrapper .userDialogContent .content form .formItem{
   height: 35px;
-  /* border:1px solid red; */
   display: flex;
   flex-direction: column;
   margin-bottom:5px;
@@ -64,19 +62,6 @@ ol,li{
 .userDialogWrapper .userDialogContent .content form .formItem input:focus{
   outline: none;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .userDialogWrapper .userDialogContent nav {
   margin-top: auto;
