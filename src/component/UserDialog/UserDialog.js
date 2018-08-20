@@ -16,34 +16,13 @@ export default class UserDialog extends React.Component {
                 passWord:'',
             },
             signIn:[
-                {
-                    id:'userName',
-                    word:'用户名',
-                    type:'text'
-                },
-                {
-                    id:'passWord',
-                    word:'密码',
-                    type:'password'
-
-                },
+                {id:'userName',word:'用户名',type:'text'},
+                {id:'passWord',word:'密码',type:'password'},
             ],
             signUp:[
-                {
-                    id:'userName',
-                    word:'用户名',
-                    type:'text'
-                },
-                {
-                    id:'userEmail',
-                    word:'邮箱',
-                    type:'email'
-                },
-                {
-                    id:'passWord',
-                    word:'密码',
-                    type:'password'
-                },
+                {id:'userName',word:'用户名',type:'text'},
+                {id:'userEmail',word:'邮箱',type:'email'},
+                {id:'passWord',word:'密码',type:'password'},
             ]
         }
     }
@@ -56,9 +35,10 @@ export default class UserDialog extends React.Component {
                     <div className="content">
                         {
                              <SignForm 
-                             onChange={this.changeFormData.bind(this)} 
                              formItem={this.state[this.state.status]}
+                             onChange={this.changeFormData.bind(this)} 
                              onSubmit={this.handleSubmit.bind(this)}
+
                              ></SignForm>
                            
                         }
@@ -88,18 +68,17 @@ export default class UserDialog extends React.Component {
             status: event
                 .target
                 .getAttribute("data-account"),
-            formData:{
-                userName:'',
-                userEmail:'',
-                passWord:'',
-            },
+
         })
     }
     handleSubmit(event){
         console.log('dialog')
-        console.log(event)
+        console.log(event.target)
     }
-
+    assignValue(item){
+        console.log(item)
+        return this.state.formData[item]
+    }
     changeFormData(keyword,event){
         let stateCopy =JSON.parse(JSON.stringify(this.state.formData))
         stateCopy[keyword]=event.target.value
@@ -108,6 +87,5 @@ export default class UserDialog extends React.Component {
         })
 
     }
-
 
 }
