@@ -18,30 +18,37 @@ export default class UserDialog extends React.Component {
             signIn:[
                 {
                     id:'userName',
-                    word:'用户名'
+                    word:'用户名',
+                    type:'text'
                 },
                 {
                     id:'passWord',
-                    word:'密码'
+                    word:'密码',
+                    type:'password'
+
                 },
             ],
             signUp:[
                 {
                     id:'userName',
-                    word:'用户名'
+                    word:'用户名',
+                    type:'text'
                 },
                 {
                     id:'userEmail',
-                    word:'邮箱'
+                    word:'邮箱',
+                    type:'email'
                 },
                 {
                     id:'passWord',
-                    word:'密码'
+                    word:'密码',
+                    type:'password'
                 },
             ]
         }
     }
     render() {
+        console.log(this.state.formData)
         return (
             <div className="userDialogWrapper">
                 <div className="userDialogContent">

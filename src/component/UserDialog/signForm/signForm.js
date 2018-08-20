@@ -11,14 +11,15 @@ export default class SignIn extends React.Component{
 
   }
   render(){
+    console.log(this.props.formItem)
     let formItems=this.props.formItem.map((item,index)=>{
      
       return (
         <FormItem 
         key={index} 
         formItem={item}
-        onSubmit={this.handleSubmit}
-        onChange ={this.handleChange}
+        onSubmit={this.handleSubmit.bind(this)}
+        onChange ={this.handleChange.bind(this)}
         ></FormItem>
       )
 
