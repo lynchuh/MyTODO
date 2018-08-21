@@ -79,13 +79,14 @@ export default class UserDialog extends React.Component {
 
         if(this.state.status === 'signUp'){
             let{userName,userEmail,passWord} =this.state.formData
-
             signUp({
                 userName:userName,
                 userEmail:userEmail,
                 passWord:passWord
             }).then((user)=>{
                 console.log(user)
+                let userData = {id:user.id,...user.attributes}
+                this.props.onSignUp && this.props.onSignUp.call(null,userData)
             },(error)=>{
                 console.log(error)
             })

@@ -4,8 +4,7 @@ import "normalize.css";
 import Newtodo from "./component/Todo/NewTodo/NewTodo"
 import Todoitem from "./component/Todo/TodoItem/TodoItem"
 import UserDialog from "./component/UserDialog/UserDialog"
-
-import {getCurrentUser} from './leancloud'
+import {getCurrentUser,logOut} from './leancloud'
 
 export default class App extends Component {
   constructor(props) {
@@ -25,7 +24,6 @@ export default class App extends Component {
     };
   }
   render() {
-    getCurrentUser()
     let todos = this.state.todoList.map((todoItem, index) => {
       if (!todoItem.isDelete) {
         return (
@@ -60,11 +58,16 @@ export default class App extends Component {
     });
     return (
       <div className="App">
-        {!!this.state.userInfo.id ? null: <UserDialog onSignIn={this.handleSignIn.bind(this)} ></UserDialog>}
+        {!!this.state.userInfo.id ? null: 
+        <UserDialog 
+        onSignIn={this.handleSignIn.bind(this)} 
+        onSignUp={this.handleSignUp.bind(this)}
+        ></UserDialog>}
+        
         <header className="App-header">
-          <h1 className="App-title">我的待办列表</h1>
+          <h1 className="App-title">{this.state.userInfo.username ||'我'}的待办列表</h1>
           <div className="userInfo">
-          <span>{!!this.state.userInfo.id?this.state.userInfo.username:''}</span>
+          {!!this.state.userInfo.id?<span onClick = {this.handlelogOut.bind(this)}>退出登陆</span>: null}
           </div>
         </header>
         <main>
@@ -116,6 +119,18 @@ export default class App extends Component {
   handleSignIn(userInfo){
     this.setState({
       userInfo:userInfo
+    })
+  }
+  handleSignUp(userInfo){
+    this.setState({
+      userInfo:userInfo
+    })
+  }
+  handlelogOut(event){
+    event.preventDefault()
+    logOut()
+    this.setState({
+      userInfo:{}
     })
   }
 }

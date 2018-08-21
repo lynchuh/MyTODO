@@ -30,3 +30,9 @@ export function getCurrentUser(){
     return userInfo= {id:currentUser.id,...currentUser.attributes}
   }
 }
+
+export function logOut (){
+  AV.User.logOut()
+  let currentUser = AV.User.current
+  return currentUser
+}
