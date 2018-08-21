@@ -22,3 +22,11 @@ export function signUp ({userName,userEmail,passWord}){
 export function signIn ({userName,passWord}){
   return AV.User.logIn(userName,passWord)
 }
+
+export function getCurrentUser(){
+  let currentUser = AV.User.current()
+  let userInfo
+  if (currentUser){
+    return userInfo= {id:currentUser.id,...currentUser.attributes}
+  }
+}

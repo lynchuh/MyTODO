@@ -24,7 +24,6 @@ export default class UserDialog extends React.Component {
                 {id:'userEmail',word:'邮箱',type:'email'},
                 {id:'passWord',word:'密码',type:'password'},
             ],
-            formItemStatus:false
         }
     }
     render() {
@@ -38,9 +37,7 @@ export default class UserDialog extends React.Component {
                                 formItem={this.state[this.state.status]}
                                 onChange={this.changeFormData.bind(this)} 
                                 onSubmit={this.handleSubmit.bind(this)}
-                                onchangeLabelStatus={this.handleLabelStatus.bind(this)}
                                 value={this.state.formData}
-                                labelStatus= {this.state.formItemStatus}
                             ></SignForm>
                            
                         }
@@ -116,16 +113,6 @@ export default class UserDialog extends React.Component {
         })
 
     }
-    handleLabelStatus(event){
-        event.type === 'focus'  && this.setState({
-            formItemStatus: true
-        })
-        event.type=== 'blur' && !!event.target.value && this.setState({
-            formItemStatus: true
-        })
-        event.type=== 'blur' && !event.target.value && this.setState({
-            formItemStatus: false
-        })
-     }
+
 
 }

@@ -21,7 +21,6 @@ export default class SignIn extends React.Component{
         labelStatus= {this.props.labelStatus}
         onSubmit={this.handleSubmit.bind(this)}
         onChange ={this.handleChange.bind(this)}
-        onchangeLabelStatus={this.handleLabelStatus.bind(this)}
         ></FormItem>
       )
 
@@ -41,7 +40,5 @@ export default class SignIn extends React.Component{
     event.preventDefault()
     !!this.props.onSubmit && this.props.onSubmit.call(null,event)
   }
-  handleLabelStatus(event){
-    !!this.props.onchangeLabelStatus && this.props.onchangeLabelStatus.call(null,event)
-  }
+
 }

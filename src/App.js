@@ -5,6 +5,7 @@ import Newtodo from "./component/Todo/NewTodo/NewTodo"
 import Todoitem from "./component/Todo/TodoItem/TodoItem"
 import UserDialog from "./component/UserDialog/UserDialog"
 
+import {getCurrentUser} from './leancloud'
 
 export default class App extends Component {
   constructor(props) {
@@ -20,13 +21,11 @@ export default class App extends Component {
         }
       ],
       newTodo: "",
-      userData:{
-        
-      }
+      userInfo:getCurrentUser() || {}
     };
   }
   render() {
-    
+    getCurrentUser()
     let todos = this.state.todoList.map((todoItem, index) => {
       if (!todoItem.isDelete) {
         return (
@@ -59,14 +58,13 @@ export default class App extends Component {
         );
       }
     });
-    console.log(!!this.state.userData.id)
     return (
       <div className="App">
-        {!!this.state.userData.id ? null: <UserDialog onSignIn={this.handleSignIn.bind(this)} ></UserDialog>}
+        {!!this.state.userInfo.id ? null: <UserDialog onSignIn={this.handleSignIn.bind(this)} ></UserDialog>}
         <header className="App-header">
           <h1 className="App-title">我的待办列表</h1>
-          <div className="userData">
-          <span>{!!this.state.userData.id?this.state.userData.username:''}</span>
+          <div className="userInfo">
+          <span>{!!this.state.userInfo.id?this.state.userInfo.username:''}</span>
           </div>
         </header>
         <main>
@@ -115,9 +113,9 @@ export default class App extends Component {
     item.isDelete = !item.isDelete;
     this.setState(this.state);
   }
-  handleSignIn(userData){
+  handleSignIn(userInfo){
     this.setState({
-      userData:userData
+      userInfo:userInfo
     })
   }
 }

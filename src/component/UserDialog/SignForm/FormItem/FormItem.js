@@ -16,8 +16,7 @@ export default class formItem extends React.Component{
         name={this.props.formItem.id} 
         value={this.props.value[this.props.formItem.id]} 
         onChange={this.handleChange.bind(this,this.props.formItem.id)}
-        onBlur={this.handleBlur.bind(this)}
-        onFocus={this.handleFocus.bind(this)}
+
         />
       </div>
     )
@@ -26,11 +25,6 @@ export default class formItem extends React.Component{
   handleChange(keyword,event){
     !!this.props.onChange && this.props.onChange.call(null,keyword,event)
   }
-  handleBlur(event){
-    !!this.props.onchangeLabelStatus && this.props.onchangeLabelStatus.call(null,event)
-  }
-  handleFocus(event){
-    !!this.props.onchangeLabelStatus && this.props.onchangeLabelStatus.call(null,event)
-  }
+
   
 }

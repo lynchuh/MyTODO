@@ -10,15 +10,6 @@
 }
  .formItem label{
   position:absolute;
-  bottom: 6px;
-  left: 22%;
-  color: rgb(143, 140, 140);
-  font-size: 14px;
-  /* transition: all 0.2s linear; */
-  
-}
-.formItem.active label{
-  position:absolute;
   font-size: 12px;
   left: 22%;
   top:2px;
@@ -26,19 +17,13 @@
   color: burlywood;
   font-weight: bold;
 }
-.formItem.active input{
-  border-color: burlywood;
-}
-
 
  .formItem input{
   margin-top: auto;
   border: none;
   border-bottom: 1px solid #ddd;
-  z-index: 1;
   background-color: transparent;
   font-size: 12px;
-  position: relative;
   width: 60%;
 }
 
