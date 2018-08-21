@@ -14,18 +14,23 @@ export default class App extends Component {
     super(props);
     this.state = {
       todoList: [
-        {
-          id: 0,
-          content: "我的第一条待办事项",
-          isCompeleted: false,
-          createDate: new Date(),
-          isDelete: false
-        }
+
       ],
       newTodo: "",
       userInfo:getCurrentUser() || {},
 
-    };
+    }
+    !!this.getUserTodos() && this.setState({todoList:this.getUserTodos()})
+  }
+  getUserTodos(){
+    let user = getCurrentUser()
+    if(user){
+      TodoModel.getByUser(user,(todos)=>{
+        let todoListCopy = JSON.parse(JSON.stringify(this.state.todoList))
+        todoListCopy = todos
+        return todoListCopy
+      })
+    }
   }
   render() {
     let todos = this.state.todoList.map((todoItem, index) => {
@@ -102,49 +107,78 @@ export default class App extends Component {
         content:this.state.newTodo,
         isDelete:false,
         isCompeleted:false
-      }).then((success)=>{
-        console.log(success)
+      }).then((todoItem)=>{
+        console.log(todoItem)
+        let item = {
+          id:todoItem.id,
+          ...todoItem.attributes,
+          createdAt:todoItem.createdAt.toDateString(),
+          updatedAt:todoItem.updatedAt.toDateString()}
+        this.state.todoList.push({
+          id: item.id,
+          content: item.content,
+          isCompeleted: item.isCompeleted,
+          createDate: item.updatedAt || item.createdAt,
+          isDelete: item.isDelete
+        })
+        this.setState({
+          todoList: this.state.todoList,
+          newTodo: ""
+        });
       })
-
-
-      this.state.todoList.push({
-        id: this.state.todoList.length,
-        content: this.state.newTodo,
-        isCompeleted: false,
-        createDate: new Date(),
-        isDelete: false
-      });
-      this.setState({
-        todoList: this.state.todoList,
-        newTodo: ""
-      });
     } else {
       alert("你还没告诉我你要做什么啦！");
     }
   }
   toggleCompletedStatus(e, item) {
-    item.isCompeleted = !item.isCompeleted;
-    this.setState(this.state);
+    TodoModel.update({
+      id:item.id,
+      isCompeleted:!item.isCompeleted
+    }).then((todo)=>{
+      console.log(todo)
+      let currentData = {updatedAt:todo.updatedAt.toDateString(),...todo.attributes}
+      item.isCompeleted = currentData.isCompeleted
+      item.updatedAt= currentData.updatedAt
+      this.setState(this.state)
+    },(error)=>{
+      console.log(error)
+    })
+
   }
   toggleDeletedStatus(e, item) {
-    item.isDelete = !item.isDelete;
-    this.setState(this.state);
+    TodoModel.update({
+      id:item.id,
+      isDelete:!item.isDelete
+    }).then((todo)=>{
+      console.log(todo)
+      let currentData = {updatedAt:todo.updatedAt.toDateString(),...todo.attributes}
+      item.isDelete = currentData.isDelete
+      item.updatedAt= currentData.updatedAt
+      this.setState(this.state)
+    },(error)=>{
+      console.log(error)
+    })
+
   }
   handleSignIn(userInfo){
-    this.setState({
-      userInfo:userInfo
+    !!this.getUserTodos() && this.setState({
+      userInfo:userInfo,
+      todoList:this.getUserTodos()
+    
     })
   }
   handleSignUp(userInfo){
-    this.setState({
-      userInfo:userInfo
+    !!this.getUserTodos() && this.setState({
+      userInfo:userInfo,
+      todoList:this.getUserTodos()
     })
   }
   handlelogOut(event){
     event.preventDefault()
     logOut()
     this.setState({
-      userInfo:{}
+      userInfo:{},
+      todoList:[]
     })
   }
 }
