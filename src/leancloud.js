@@ -11,6 +11,8 @@ let APP_KEY = 'SqdKMldWYSvTS39g0GGKtCW8';
 
 export default AV
 
+
+
 export function signUp ({userName,userEmail,passWord}){
   let user = new AV.User()
   user.setUsername(userName)
@@ -35,4 +37,23 @@ export function logOut (){
   AV.User.logOut()
   let currentUser = AV.User.current
   return currentUser
+}
+
+
+export const TodoModel={
+  create({content,isDelete,isCompeleted}){
+    let Todo =AV.Object.extend('Todo')
+    let todo = new Todo()
+    todo.set('content',content)
+    todo.set('isDelete',isDelete)
+    todo.set('isCompeleted',isCompeleted)
+     return todo.save()
+  },
+  update(){
+
+  },
+  destroy(){
+
+  }
+
 }

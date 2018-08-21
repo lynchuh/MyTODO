@@ -4,7 +4,10 @@ import "normalize.css";
 import Newtodo from "./component/Todo/NewTodo/NewTodo"
 import Todoitem from "./component/Todo/TodoItem/TodoItem"
 import UserDialog from "./component/UserDialog/UserDialog"
-import {getCurrentUser,logOut} from './leancloud'
+import {getCurrentUser,logOut,TodoModel} from './leancloud'
+
+
+
 
 export default class App extends Component {
   constructor(props) {
@@ -14,13 +17,14 @@ export default class App extends Component {
         {
           id: 0,
           content: "我的第一条待办事项",
-          finishStatus: false,
+          isCompeleted: false,
           createDate: new Date(),
           isDelete: false
         }
       ],
       newTodo: "",
-      userInfo:getCurrentUser() || {}
+      userInfo:getCurrentUser() || {},
+
     };
   }
   render() {
@@ -32,7 +36,7 @@ export default class App extends Component {
               item={todoItem}
               value="删除"
               isDelete={todoItem.isDelete}
-              status={todoItem.finishStatus}
+              status={todoItem.isCompeleted}
               onChange={this.toggleCompletedStatus.bind(this)}
               onClick={this.toggleDeletedStatus.bind(this)}
             />
@@ -48,7 +52,7 @@ export default class App extends Component {
             <Todoitem
               item={todoItem}
               isDelete={todoItem.isDelete}
-              status={todoItem.finishStatus}
+              status={todoItem.isCompeleted}
               onClick={this.toggleDeletedStatus.bind(this)}
               value="恢复"
             />
@@ -93,10 +97,20 @@ export default class App extends Component {
   }
   handleAddClick(event) {
     if (!!this.state.newTodo) {
+      
+      TodoModel.create({
+        content:this.state.newTodo,
+        isDelete:false,
+        isCompeleted:false
+      }).then((success)=>{
+        console.log(success)
+      })
+
+
       this.state.todoList.push({
         id: this.state.todoList.length,
         content: this.state.newTodo,
-        finishStatus: false,
+        isCompeleted: false,
         createDate: new Date(),
         isDelete: false
       });
@@ -109,7 +123,7 @@ export default class App extends Component {
     }
   }
   toggleCompletedStatus(e, item) {
-    item.finishStatus = !item.finishStatus;
+    item.isCompeleted = !item.isCompeleted;
     this.setState(this.state);
   }
   toggleDeletedStatus(e, item) {
