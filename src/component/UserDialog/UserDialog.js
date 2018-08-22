@@ -2,8 +2,9 @@ import React from "react"
 
 import "./UserDialog.css"
 
-import SignForm from "./SignForm/SignForm"
+import {SignIn,SignUp} from "./SignForm/SignForm"
 import {signUp,signIn} from "../../leancloud"
+import Button from '../button/button'
 
 export default class UserDialog extends React.Component {
     constructor(props) {
@@ -15,32 +16,36 @@ export default class UserDialog extends React.Component {
                 userEmail:'',
                 passWord:'',
             },
-            signIn:[
-                {id:'userName',word:'用户名',type:'text'},
-                {id:'passWord',word:'密码',type:'password'},
-            ],
-            signUp:[
-                {id:'userName',word:'用户名',type:'text'},
-                {id:'userEmail',word:'邮箱',type:'email'},
-                {id:'passWord',word:'密码',type:'password'},
-            ],
         }
     }
     render() {
+        console.log(this.state)
+        console.log(this.state.formData)
+        const signInform= (
+            <form onSubmit={this.handleSubmit.bind(this)}>
+                <SignIn
+                    value={this.state.formData}
+                    onChange={this.handleChange.bind(this)} 
+                ></SignIn>
+                <Button value="登陆"></Button>
+            </form>
+        )
+        const signUpform= (
+            <form onSubmit={this.handleSubmit.bind(this)  }>
+                <SignUp
+                    value={this.state.formData}
+                    onChange={this.handleChange.bind(this)} 
+                ></SignUp>
+                <Button value="注册"></Button>
+            </form>
+        )
+
         return (
             <div className="userDialogWrapper">
                 <div className="userDialogContent">
                     <h1>Welcome</h1>
                     <div className="content">
-                        {
-                            <SignForm 
-                                formItem={this.state[this.state.status]}
-                                onChange={this.changeFormData.bind(this)} 
-                                onSubmit={this.handleSubmit.bind(this)}
-                                value={this.state.formData}
-                            ></SignForm>
-                           
-                        }
+                        {this.state.status==='signIn'? signInform : signUpform}
                     </div>
                     <nav >
                         <ol >
@@ -62,6 +67,8 @@ export default class UserDialog extends React.Component {
         )
 
     }
+
+
     handleClick(event) {
         this.setState({
             status: event
@@ -75,36 +82,42 @@ export default class UserDialog extends React.Component {
 
         })
     }
+    handleChange(keyword,event){
+        this._changeFormData(keyword,event)
+    }
     handleSubmit(event){
-
-        if(this.state.status === 'signUp'){
-            let{userName,userEmail,passWord} =this.state.formData
-            signUp({
-                userName:userName,
-                userEmail:userEmail,
-                passWord:passWord
-            }).then((user)=>{
-                console.log(user)
-                let userData = {id:user.id,...user.attributes}
-                this.props.onSignUp && this.props.onSignUp.call(null,userData)
-            },(error)=>{
-                console.log(error)
-            })
-        }else if(this.state.status === 'signIn'){
-            let{userName,passWord} =this.state.formData
-            signIn({
-                userName:userName,
-                passWord:passWord
-            }).then((user)=>{
-                let userData = {id:user.id,...user.attributes}
-                this.props.onSignIn && this.props.onSignIn.call(null,userData)
-            },(error)=>{
-                console.log(error)
-            })
+        event.preventDefault()
+        if(this.state.status === 'signIn'){
+            this._signIn()
+        }else if(this.state.status === 'signUp'){
+            this._signUp()
         }
     }
     
-    changeFormData(keyword,event){
+    _signIn(){
+        let {userName,passWord}= this.state.formData
+        signIn({
+            userName:userName,
+            passWord:passWord
+        }).then((user)=>{
+            let userInfo = {id:user.id,...user.attributes}
+            this.props.onlogIn && this.props.onlogIn.call(null,userInfo)
+        })
+    }
+    _signUp(){
+        let{userName,userEmail,passWord} =this.state.formData
+        signUp({
+            userName:userName,
+            userEmail:userEmail,
+            passWord:passWord
+        }).then((user)=>{
+            let userInfo = {id:user.id,...user.attributes}
+            this.props.onlogIn && this.props.onlogIn.call(null,userInfo)
+        },(error)=>{
+            //提示登陆错误信息
+        })
+    }
+    _changeFormData(keyword,event){
         let stateCopy =JSON.parse(JSON.stringify(this.state.formData))
         stateCopy[keyword]=event.target.value
         this.setState({
@@ -112,6 +125,5 @@ export default class UserDialog extends React.Component {
         })
 
     }
-
 
 }

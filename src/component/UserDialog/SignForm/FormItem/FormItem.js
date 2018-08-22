@@ -2,21 +2,16 @@ import React from 'react'
 import './FormItem.css'
 
 export default class formItem extends React.Component{
-  constructor(props){
-    super(props)
-
-  }
 
   render(){
     return (
-      <div className={!!this.props.labelStatus ?'formItem active':'formItem' } >
-        <label htmlFor={this.props.formItem.id}>{this.props.formItem.word} </label>
+      <div className='formItem'>
+        <label htmlFor={this.props.myItem.id}>{this.props.myItem.word} </label>
         <input 
-        type={this.props.formItem.type} 
-        name={this.props.formItem.id} 
-        value={this.props.value[this.props.formItem.id]} 
-        onChange={this.handleChange.bind(this,this.props.formItem.id)}
-
+        type={this.props.myItem.type} 
+        name={this.props.myItem.id} 
+        value={this.props.value[this.props.myItem.id]} 
+        onChange={this.handleChange.bind(this,this.props.myItem.id)}
         />
       </div>
     )

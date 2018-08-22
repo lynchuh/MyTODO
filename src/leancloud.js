@@ -8,12 +8,11 @@ let APP_KEY = 'SqdKMldWYSvTS39g0GGKtCW8';
       appKey: APP_KEY
     });
 
-
 export default AV
 
 
-
-export function signUp ({userName,userEmail,passWord}){
+//dialog
+export function signUp ({userName,userEmail,passWord},successfn,errorfn){
   let user = new AV.User()
   user.setUsername(userName)
   user.setPassword(passWord)
@@ -21,15 +20,17 @@ export function signUp ({userName,userEmail,passWord}){
   return user.signUp()
 }
 
-export function signIn ({userName,passWord}){
+export function signIn ({userName,passWord},successfn,errorfn){
   return AV.User.logIn(userName,passWord)
 }
 
+
+//App
 export function getCurrentUser(){
   let currentUser = AV.User.current()
-  let userInfo
   if (currentUser){
-    return userInfo= {id:currentUser.id,...currentUser.attributes}
+    let userInfo = {id:currentUser.id,...currentUser.attributes}
+    return userInfo
   }
 }
 
@@ -38,6 +39,10 @@ export function logOut (){
   let currentUser = AV.User.current
   return currentUser
 }
+
+
+
+
 
 
 export const TodoModel={
@@ -51,23 +56,28 @@ export const TodoModel={
     todo.set('content',content)
     todo.set('isDelete',isDelete)
     todo.set('isCompeleted',isCompeleted)
-     return todo.save()
+     return todo.save().then((success)=>{
+
+     },(error)=>{
+
+     })
   },
   update({id,content,isDelete,isCompeleted}){
     let todo = AV.Object.createWithoutData('Todo', id)
     !!content && todo.set('content',content)
     !!isDelete && todo.set('isDelete',isDelete)
     !!isCompeleted && todo.set('isCompeleted',isCompeleted)
-    return todo.save()
+    return todo.save().then((success)=>{
+
+    },(error)=>{
+
+    })
   },
-  getByUser(user,success,error){
+  getUserData(success,error){
     let query = new AV.Query('Todo')
      query.find().then((response)=>{
       let array =response.map((todoItem,index)=>{
-        return {id:todoItem.id,
-          ...todoItem.attributes,
-          createdAt:todoItem.createdAt.toDateString(),
-          updatedAt:todoItem.updatedAt.toDateString()}
+        return {id:todoItem.id,...todoItem.attributes}
       })
       !!success && success.call(null,array)
     },(error)=>{

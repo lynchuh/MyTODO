@@ -3,10 +3,7 @@ import './TodoItem.css'
 import Button from '../../button/button'
 
 export default class Todolist extends React.Component{
-    constructor(props){
-        super(props)
 
-    }
     render(){
         return(
             <div className={!!this.props.isDelete ?'deleted':''}>

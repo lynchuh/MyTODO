@@ -7,11 +7,9 @@ export default class Button extends React.Component{
             isClick:false,
 
         }
-        this.myRefs = React.createRef()
         
     }
     render(){
-        let self= this
         return(
             <button ref="button" className="button" onClick={this.handleClick.bind(this)} onAnimationEnd={this.animationEnd.bind(this)}>
                 {!!this.state.isClick ? <span className="circle"/> : ''}
@@ -21,7 +19,7 @@ export default class Button extends React.Component{
     }
     handleClick(event){
         event.stopPropagation()
-        let {clientX,clientY} = event  
+        // let {clientX,clientY} = event  
         // console.log(React.findDOMNode(this.refs.button).focus())
 
         this.setState({

@@ -1,44 +1,40 @@
 import React from 'react'
 
-import Button from '../../button/button'
 import FormItem from './FormItem/FormItem'
 
+const signInArray = [
+  {id:'userName',word:'用户名',type:'text'},
+  {id:'passWord',word:'密码',type:'password'},
+]
 
+const signUpArray = [
+  {id:'userName',word:'用户名',type:'text'},
+  {id:'userEmail',word:'邮箱',type:'email'},
+  {id:'passWord',word:'密码',type:'password'},
+]
 
-export default class SignIn extends React.Component{
-  constructor(props){
-    super(props)
-
-  }
-  render(){
-    let formItems=this.props.formItem.map((item,index)=>{
-     
+function newSignForm (FormItem,itemArray){
+  return class extends React.Component{
+    render(){
+      let formArray = itemArray.map((item,index)=>{
+        return (
+          <FormItem 
+            myItem={item}
+            key={index}
+            value= {this.props.value}
+            onChange={this.props.onChange}
+          ></FormItem>
+        )
+      })
       return (
-        <FormItem 
-        key={index} 
-        value={this.props.value}
-        formItem={item}
-        labelStatus= {this.props.labelStatus}
-        onSubmit={this.handleSubmit.bind(this)}
-        onChange ={this.handleChange.bind(this)}
-        ></FormItem>
+        <div >
+          {formArray}
+        </div>
       )
+      
+    }
 
-    })
-    return(
-      <form onSubmit={this.handleSubmit.bind(this)  }>
-        { formItems }
-        <Button value="登陆"></Button>
-      </form>
-    )
   }
-  handleChange(keyword,event){
-    
-    !!this.props.onChange && this.props.onChange.call(null,keyword,event)
-  }
-  handleSubmit(event){
-    event.preventDefault()
-    !!this.props.onSubmit && this.props.onSubmit.call(null,event)
-  }
-
 }
+export const SignIn =newSignForm(FormItem,signInArray)
+export const SignUp =newSignForm(FormItem,signUpArray)
