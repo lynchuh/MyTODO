@@ -28,10 +28,7 @@ export function signIn ({userName,passWord},successfn,errorfn){
 //App
 export function getCurrentUser(){
   let currentUser = AV.User.current()
-  if (currentUser){
-    let userInfo = {id:currentUser.id,...currentUser.attributes}
-    return userInfo
-  }
+  return currentUser
 }
 
 export function logOut (){
@@ -42,7 +39,6 @@ export function logOut (){
 
 export const TodoModel={
   create({content,isDelete,isCompeleted,createDate}){
-    console.log('????')
     let Todo =AV.Object.extend('Todo')
     let todo = new Todo()
     let acl = new AV.ACL()
@@ -62,18 +58,21 @@ export const TodoModel={
     !!isCompeleted && todo.set('isCompeleted',isCompeleted)
     return todo.save()
   },
-  getUserData(success,error){
+  getUserData(successfn,errorfn){
+    let currentUser = AV.User.current()
+    console.log('currentUser')
+    console.log(currentUser)
     let query = new AV.Query('Todo')
-    console.log(query)
      query.find().then((response)=>{
        console.log(response)
-      let array =response.map((todoItem,index)=>{
+      let array =response.map((todoItem)=>{
         return {id:todoItem.id,...todoItem.attributes}
       })
       console.log(array)
-      !!success && success.call(null,array)
+      !!successfn && successfn.call(null,array)
     },(error)=>{
       console.log(error)
+      errorfn && errorfn.call(null,error)
     })
   }
 

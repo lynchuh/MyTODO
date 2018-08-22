@@ -12,11 +12,10 @@ export default class App extends Component {
     this.state = {
 
       newTodo: "",
-      userInfo:getCurrentUser()||{},
-      todoList: [
-
-      ],
+      userInfo: this._getCurrentUser() || {},
+      todoList: [],
     }
+    this._getCurrentUser()
     this._getUserData()
   }
 
@@ -179,20 +178,15 @@ export default class App extends Component {
     this.setState(this.state)
     this._updateInleancloud(item,stringWord)
   }
-  _getCurrentUser(getdata){
+  _getCurrentUser(){
     const currentUser = getCurrentUser()
-    this.setState({
-      userInfo :currentUser
-    })
-    getdata && getdata.call(this)
+    let userInfo = !!currentUser? {id:currentUser.id,...currentUser.attributes} : {}
+    return userInfo
   }
   _getUserData(){
-    console.log('_getUserData')
     const user = getCurrentUser()
     if(user){
-      console.log(user)
       TodoModel.getUserData((todos)=>{
-        console.log(todos)
           let todoListCopy = JSON.parse(JSON.stringify(this.state.todoList))
           todoListCopy = todos
           this.setState({
