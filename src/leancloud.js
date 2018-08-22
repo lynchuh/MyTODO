@@ -40,13 +40,9 @@ export function logOut (){
   return currentUser
 }
 
-
-
-
-
-
 export const TodoModel={
-  create({content,isDelete,isCompeleted}){
+  create({content,isDelete,isCompeleted,createDate}){
+    console.log('????')
     let Todo =AV.Object.extend('Todo')
     let todo = new Todo()
     let acl = new AV.ACL()
@@ -56,29 +52,25 @@ export const TodoModel={
     todo.set('content',content)
     todo.set('isDelete',isDelete)
     todo.set('isCompeleted',isCompeleted)
-     return todo.save().then((success)=>{
-
-     },(error)=>{
-
-     })
+    todo.set('createDate',createDate)
+    return todo.save()
   },
-  update({id,content,isDelete,isCompeleted}){
+  update(id,{content,isDelete,isCompeleted}){
     let todo = AV.Object.createWithoutData('Todo', id)
     !!content && todo.set('content',content)
     !!isDelete && todo.set('isDelete',isDelete)
     !!isCompeleted && todo.set('isCompeleted',isCompeleted)
-    return todo.save().then((success)=>{
-
-    },(error)=>{
-
-    })
+    return todo.save()
   },
   getUserData(success,error){
     let query = new AV.Query('Todo')
+    console.log(query)
      query.find().then((response)=>{
+       console.log(response)
       let array =response.map((todoItem,index)=>{
         return {id:todoItem.id,...todoItem.attributes}
       })
+      console.log(array)
       !!success && success.call(null,array)
     },(error)=>{
       console.log(error)

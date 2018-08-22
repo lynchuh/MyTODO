@@ -22,7 +22,6 @@ export default class Newtodo extends React.Component{
         !!this.props.onChange  &&this.props.onChange.call(null,event)
     }
     handleClick(event){
-        console.log('我要添加文本了')
         !!this.props.onClick && this.props.onClick.call(null,event)
     }
 }

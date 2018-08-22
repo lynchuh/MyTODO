@@ -21,7 +21,7 @@ export default class App extends Component {
   }
 
   render() {
-    // console.log(this.state)
+    console.log(this.state)
     let todos = this.state.todoList.map((todoItem, index) => {
       if (!todoItem.isDelete) {
         return (
@@ -47,7 +47,7 @@ export default class App extends Component {
               item={todoItem}
               isDelete={todoItem.isDelete}
               status={todoItem.isCompeleted}
-              onClick={this.toggleDeletedStatus.bind(this)}
+              onClick={this.handTodoitemClick.bind(this)}
               value="恢复"
             />
           </li>
@@ -92,10 +92,9 @@ export default class App extends Component {
 
 
   componentWillUpdate(){
-
   }
   componentDidUpdate(){
-
+    this._saveInLeancloud()
   }
   handleSignIn(user){
     this.setState({
@@ -121,6 +120,7 @@ export default class App extends Component {
   handleNewtodoClick(event){
     if(!!this.state.newTodo){
       let newItem = {
+        id:'',
         content: this.state.newTodo,
         isDelete:false,
         isCompeleted:false,
@@ -145,15 +145,39 @@ export default class App extends Component {
   }
 
 
+  _saveInLeancloud(){
+    console.log('_saveInLeancloud')
+    this.state.todoList.map((item)=>{
+      console.log(!item.id)
+      if(!item.id){
+        console.log(item)
+        TodoModel.create({
+          content:item.content,
+          isDelete:item.isDelete,
+          isCompeleted:item.isCompeleted,
+          createDate:item.createDate
+        }).then((success)=>{
+          console.log('_saveInLeancloud')
+          console.log(success)
+        },(error)=>{
+          console.log('create')
+          console.log(error)
+        })
+      }
+    })
+  }
 
 
-
-
-
-
+  _updateInleancloud(item,stringWord){
+    console.log('_updateInleancloud')
+    TodoModel.update(item.id,{
+      stringWord:item[stringWord]
+    })
+  }
   _updatevalue(item,stringWord){
     !!stringWord && (item[stringWord]= !item[stringWord])
     this.setState(this.state)
+    this._updateInleancloud(item,stringWord)
   }
   _getCurrentUser(getdata){
     const currentUser = getCurrentUser()
@@ -163,9 +187,12 @@ export default class App extends Component {
     getdata && getdata.call(this)
   }
   _getUserData(){
+    console.log('_getUserData')
     const user = getCurrentUser()
     if(user){
+      console.log(user)
       TodoModel.getUserData((todos)=>{
+        console.log(todos)
           let todoListCopy = JSON.parse(JSON.stringify(this.state.todoList))
           todoListCopy = todos
           this.setState({
@@ -175,43 +202,4 @@ export default class App extends Component {
     }
     
   }
-  _logOut(){
-
-  }
-
-
-
-
-
-
-
-  // handleSignIn(userInfo){
-  //   !!this.getUserTodos() && this.setState({
-  //     userInfo:userInfo,
-  //     todoList:this.getUserTodos()
-    
-  //   })
-  // }
-  // handleSignUp(userInfo){
-  //   !!this.getUserTodos() && this.setState({
-  //     userInfo:userInfo,
-  //     todoList:this.getUserTodos()
-  //   })
-  // }
-  // handlelogOut(event){
-  //   event.preventDefault()
-  //   logOut()
-  //   this.setState({
-  //     userInfo:{},
-  //     todoList:[]
-  //   })
-  // }
-
-
-
-
-
-
-
-
 }
