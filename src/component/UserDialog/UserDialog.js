@@ -99,8 +99,7 @@ export default class UserDialog extends React.Component {
         signIn({
             userName:userName,
             passWord:passWord
-        }).then((user)=>{
-            let userInfo = {id:user.id,...user.attributes}
+        },(userInfo)=>{
             this.props.onlogIn && this.props.onlogIn.call(null,userInfo)
         })
     }
@@ -110,8 +109,7 @@ export default class UserDialog extends React.Component {
             userName:userName,
             userEmail:userEmail,
             passWord:passWord
-        }).then((user)=>{
-            let userInfo = {id:user.id,...user.attributes}
+        },(userInfo)=>{
             this.props.onlogIn && this.props.onlogIn.call(null,userInfo)
         },(error)=>{
             //提示登陆错误信息

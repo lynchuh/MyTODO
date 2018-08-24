@@ -12,13 +12,14 @@ export default class App extends Component {
     this.state = {
 
       newTodo: "",
-      userInfo: this._getCurrentUser() || {},
+      userInfo: {},
       todoList: [],
     }
-    this._getCurrentUser()
-    this._getUserData()
   }
-
+  componentWillMount(){
+    
+    this._setCurrentUser(this._setUserData.bind(this))
+  }
   render() {
     console.log(this.state)
     let todos = this.state.todoList.map((todoItem, index) => {
@@ -96,9 +97,7 @@ export default class App extends Component {
     this._saveInLeancloud()
   }
   handleSignIn(user){
-    this.setState({
-      userInfo:user
-    })
+    this._setUserWhenlogIn(user,this._setUserData.bind(this))
   }
   handlelogOut(e){
     logOut()
@@ -145,11 +144,8 @@ export default class App extends Component {
 
 
   _saveInLeancloud(){
-    console.log('_saveInLeancloud')
     this.state.todoList.map((item)=>{
-      console.log(!item.id)
       if(!item.id){
-        console.log(item)
         TodoModel.create({
           content:item.content,
           isDelete:item.isDelete,
@@ -178,22 +174,41 @@ export default class App extends Component {
     this.setState(this.state)
     this._updateInleancloud(item,stringWord)
   }
-  _getCurrentUser(){
+
+
+
+
+
+
+
+  _setCurrentUser(successFn){
+    
     const currentUser = getCurrentUser()
     let userInfo = !!currentUser? {id:currentUser.id,...currentUser.attributes} : {}
+    if(userInfo){
+      this.setState({
+        userInfo:userInfo
+      })
+      console.log('success get userInfo')
+      successFn && successFn.call(null,userInfo)
+    }
     return userInfo
   }
-  _getUserData(){
-    const user = getCurrentUser()
-    if(user){
+  _setUserData(){
       TodoModel.getUserData((todos)=>{
-          let todoListCopy = JSON.parse(JSON.stringify(this.state.todoList))
-          todoListCopy = todos
           this.setState({
-            todoList:todoListCopy
+            todoList:todos
           })
       })
-    }
-    
   }
+  _setUserWhenlogIn(user,successFn){
+    this.setState({
+      userInfo:user
+    })
+    if(user){
+      successFn && successFn.call(null,user)
+    }
+  }
+
+
 }
