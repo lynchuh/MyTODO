@@ -87,16 +87,16 @@ export const TodoModel = {
     })
   },
   update(id, {
-    content,
     isDelete,
     isCompeleted
   },successfn,errorfn) {
     let todo = AV.Object.createWithoutData('Todo', id) 
-    !!content && todo.set('content', content) 
-    !!isDelete && todo.set('isDelete', isDelete) 
-    !!isCompeleted && todo.set('isCompeleted', isCompeleted)
+    todo.set('isDelete', isDelete) 
+    todo.set('isCompeleted', isCompeleted)
     todo.save().then((todo)=>{
+      console.log(todo)
       let newtodo = {id:todo.id,...todo.attributes}
+      console.log(newtodo)
       successfn && successfn.call(null,newtodo)
     },(error)=>{
       errorfn && errorfn.call(null,error)

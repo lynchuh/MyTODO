@@ -18,7 +18,6 @@ export default class Todolist extends React.Component{
         )
     }
     handleChange(event){
-        console.log(event.target.value)
         !!this.props.onChange && this.props.onChange.call(null,event,this.props.item)
     }
     handleClick(event){

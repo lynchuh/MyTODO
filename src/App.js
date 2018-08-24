@@ -6,6 +6,8 @@ import Todoitem from "./component/Todo/TodoItem/TodoItem"
 import UserDialog from "./component/UserDialog/UserDialog"
 import {getCurrentUser,logOut,TodoModel} from './leancloud'
 
+
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -13,44 +15,52 @@ export default class App extends Component {
       newTodo: "",
       userInfo: {},
       todoList: [],
+      liststatus:'activeTodo'
     }
   }
   componentWillMount(){
     this._setCurrentUser(this._setUserData.bind(this))
   }
   render() {
-    let todos = this.state.todoList.map((todoItem, index) => {
+    let todos={
+      activeTodo:[],
+      deletedTodo:[],
+      compeletedTodo:[]
+    }
+    this.state.todoList.map((todoItem, index) => {
       if (!todoItem.isDelete) {
-        return (
+        let todo = (
           <li key={index}>
             <Todoitem
               item={todoItem}
-              value="删除"
               isDelete={todoItem.isDelete}
               status={todoItem.isCompeleted}
               onChange={this.handleTodoitemChange.bind(this)}
               onClick={this.handTodoitemClick.bind(this)}
+              value="删除"
             />
           </li>
-        );
-      }
-    });
-
-    let deleteTodo = this.state.todoList.map((todoItem, index) => {
-      if (!!todoItem.isDelete) {
-        return (
+        )
+        todoItem.isCompeleted ? todos.compeletedTodo.push(todo): todos.activeTodo.push(todo)
+      }else{
+        let deletedTodo= (
           <li key={index}>
             <Todoitem
               item={todoItem}
+              value="恢复"
               isDelete={todoItem.isDelete}
               status={todoItem.isCompeleted}
               onClick={this.handTodoitemClick.bind(this)}
-              value="恢复"
             />
           </li>
         );
+        todos.deletedTodo.push(deletedTodo)
       }
     });
+
+
+
+
     return (
       <div className="App">
         {!!this.state.userInfo.id? null: 
@@ -70,11 +80,15 @@ export default class App extends Component {
             onClick={this.handleNewtodoClick.bind(this)}
           />
           <div className="todoList">
-            
-            <h2>全部事项</h2>
-            <ol>{todos}</ol>
-            <h2>删除事项</h2>
-            <ol>{deleteTodo}</ol>
+            <ol>
+              <li 
+                data-liststatus="activeTodo" 
+                onClick={this.handleTodolistClick.bind(this)} 
+              >待办事项</li>  
+              <li data-liststatus="compeletedTodo" onClick={this.handleTodolistClick.bind(this)} >完成事项</li>  
+              <li data-liststatus="deletedTodo" onClick={this.handleTodolistClick.bind(this)} >删除事项</li>  
+            </ol> 
+            {todos[this.state.liststatus]}           
           </div>
         </main>
       </div>
@@ -115,11 +129,17 @@ export default class App extends Component {
   // TodoList
   handleTodoitemChange(event,item){
     this._updatevalue(item,'isCompeleted')
+
   }
   handTodoitemClick(event,item){
     this._updatevalue(item,'isDelete')
   }
-
+  handleTodolistClick(event){
+    let target = event.target.getAttribute('data-listStatus')
+    this.setState({
+      liststatus: target
+    })
+  }
 
 
   _saveNewtodo({content,isDelete,isCompeleted,createDate}){
@@ -143,9 +163,13 @@ export default class App extends Component {
   }
   _updatevalue(item,stringWord){
     !!stringWord && (item[stringWord]= !item[stringWord])
-    TodoModel.update(item.id,{
-      stringWord:item[stringWord]
-    },(item)=>{
+    let todo=JSON.parse(JSON.stringify(item))
+    delete todo['id']
+    delete todo['createDate']
+    delete todo['content']
+    TodoModel.update(item.id,todo,(item)=>{
+      console.log('我已经update了，下面是update的item')
+      console.log(item)
       let todoListCopy=JSON.parse(JSON.stringify(this.state.todoList))
       todoListCopy.map((todo)=>{
         todo= todo.id===item.id ? item : todo
@@ -177,6 +201,7 @@ export default class App extends Component {
           })
       })
   }
+
   _setUserWhenlogIn(user,successFn){
     this.setState({
       userInfo:user
