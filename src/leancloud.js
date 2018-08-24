@@ -67,7 +67,7 @@ export const TodoModel = {
     isDelete,
     isCompeleted,
     createDate
-  }) {
+  },successfn,errorfn) {
     let Todo = AV.Object.extend('Todo')
     let todo = new Todo()
     let acl = new AV.ACL()
@@ -79,18 +79,28 @@ export const TodoModel = {
     todo.set('isDelete', isDelete)
     todo.set('isCompeleted', isCompeleted)
     todo.set('createDate', createDate)
-    return todo.save()
+    todo.save().then((todo)=>{
+      let newtodo = {id:todo.id,...todo.attributes}
+      successfn && successfn.call(null,newtodo)
+    },(error)=>{
+      errorfn && errorfn.call(null,error)
+    })
   },
   update(id, {
     content,
     isDelete,
     isCompeleted
-  }) {
+  },successfn,errorfn) {
     let todo = AV.Object.createWithoutData('Todo', id) 
     !!content && todo.set('content', content) 
     !!isDelete && todo.set('isDelete', isDelete) 
     !!isCompeleted && todo.set('isCompeleted', isCompeleted)
-    return todo.save()
+    todo.save().then((todo)=>{
+      let newtodo = {id:todo.id,...todo.attributes}
+      successfn && successfn.call(null,newtodo)
+    },(error)=>{
+      errorfn && errorfn.call(null,error)
+    })
   },
   getUserData(successfn, errorfn) {
     let query = new AV.Query('Todo')
@@ -101,7 +111,7 @@ export const TodoModel = {
           ...todoItem.attributes
         }
       }) 
-      !!successfn && successfn.call(null, array)
+      successfn && successfn.call(null, array)
     }, (error) => {
       errorfn && errorfn.call(null, error)
     })

@@ -10,18 +10,15 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
       newTodo: "",
       userInfo: {},
       todoList: [],
     }
   }
   componentWillMount(){
-    
     this._setCurrentUser(this._setUserData.bind(this))
   }
   render() {
-    console.log(this.state)
     let todos = this.state.todoList.map((todoItem, index) => {
       if (!todoItem.isDelete) {
         return (
@@ -60,8 +57,6 @@ export default class App extends Component {
         <UserDialog 
         onlogIn={this.handleSignIn.bind(this)} 
         ></UserDialog>}
-
-
         <header className="App-header">
           <h1 className="App-title">{this.state.userInfo.username ||'我'}的待办列表</h1>
           <div className="userInfo">
@@ -75,6 +70,7 @@ export default class App extends Component {
             onClick={this.handleNewtodoClick.bind(this)}
           />
           <div className="todoList">
+            
             <h2>全部事项</h2>
             <ol>{todos}</ol>
             <h2>删除事项</h2>
@@ -84,18 +80,8 @@ export default class App extends Component {
       </div>
     );
   }
-  componentDidMount(){
 
 
-  }
-
-
-
-  componentWillUpdate(){
-  }
-  componentDidUpdate(){
-    this._saveInLeancloud()
-  }
   handleSignIn(user){
     this._setUserWhenlogIn(user,this._setUserData.bind(this))
   }
@@ -106,35 +92,27 @@ export default class App extends Component {
       todoList:[]
     })
   }
-
-
-
   // NewTodo
   handleNewtodoChange(event) {
     this.setState({
       newTodo: event.target.value
     });
   }
-  handleNewtodoClick(event){
+  handleNewtodoClick(){
     if(!!this.state.newTodo){
       let newItem = {
-        id:'',
         content: this.state.newTodo,
         isDelete:false,
         isCompeleted:false,
         createDate: new Date()
       }
-      this.state.todoList.push(newItem)
-      this.setState({
-        todoList : this.state.todoList,
-        newTodo:''
-      })
+      this._saveNewtodo(newItem)
     }else{
       alert('你还没告诉我你要做什么啦！')
     }
   }
 
-  // todoList
+  // TodoList
   handleTodoitemChange(event,item){
     this._updatevalue(item,'isCompeleted')
   }
@@ -143,53 +121,51 @@ export default class App extends Component {
   }
 
 
-  _saveInLeancloud(){
-    this.state.todoList.map((item)=>{
-      if(!item.id){
-        TodoModel.create({
-          content:item.content,
-          isDelete:item.isDelete,
-          isCompeleted:item.isCompeleted,
-          createDate:item.createDate
-        }).then((success)=>{
-          console.log('_saveInLeancloud')
-          console.log(success)
-        },(error)=>{
-          console.log('create')
-          console.log(error)
-        })
-      }
-    })
-  }
 
-
-  _updateInleancloud(item,stringWord){
-    console.log('_updateInleancloud')
-    TodoModel.update(item.id,{
-      stringWord:item[stringWord]
+  _saveNewtodo({content,isDelete,isCompeleted,createDate}){
+    TodoModel.create({
+      content:content,
+      isDelete:isDelete,
+      isCompeleted:isCompeleted,
+      createDate:createDate
+    },(item)=>{
+      let Newtodo = {id:item.id,...item.attributes}
+      this.state.todoList.push(Newtodo)
+        this.setState({
+          todoList : this.state.todoList,
+          newTodo:''
+      })
+    },(error)=>{
+      console.log('create_error')
+      console.log(error)
     })
+
   }
   _updatevalue(item,stringWord){
     !!stringWord && (item[stringWord]= !item[stringWord])
-    this.setState(this.state)
-    this._updateInleancloud(item,stringWord)
+    TodoModel.update(item.id,{
+      stringWord:item[stringWord]
+    },(item)=>{
+      let todoListCopy=JSON.parse(JSON.stringify(this.state.todoList))
+      todoListCopy.map((todo)=>{
+        todo= todo.id===item.id ? item : todo
+        return todo
+      })
+      this.setState({
+        todoList:todoListCopy
+      })
+    },(error)=>{
+      console.log('update_error')
+      console.log(error)
+    })
   }
-
-
-
-
-
-
-
   _setCurrentUser(successFn){
-    
     const currentUser = getCurrentUser()
-    let userInfo = !!currentUser? {id:currentUser.id,...currentUser.attributes} : {}
+    let userInfo = !!currentUser ? {id:currentUser.id,...currentUser.attributes} : {}
     if(userInfo){
       this.setState({
         userInfo:userInfo
       })
-      console.log('success get userInfo')
       successFn && successFn.call(null,userInfo)
     }
     return userInfo
@@ -209,6 +185,5 @@ export default class App extends Component {
       successFn && successFn.call(null,user)
     }
   }
-
 
 }

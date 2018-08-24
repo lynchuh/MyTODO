@@ -1,34 +1,47 @@
- .formItem{
-  height: 40px;
-  display: flex;
-  flex-direction: column;
-  margin-bottom:5px;
-  text-align: center;  
-  align-items: center;
-  width: 100%;
-  position: relative;
-}
- .formItem label{
-  position:absolute;
-  font-size: 12px;
-  left: 22%;
-  top:2px;
-  transition: all 0.2s linear;
-  color: burlywood;
-  font-weight: bold;
-}
+ .formItem {
+   height: 45px;
+   display: flex;
+   flex-direction: column;
+   margin-bottom: 5px;
+   text-align: center;
+   align-items: center;
+   width: 100%;
+   position: relative;
+ }
 
- .formItem input{
-  margin-top: auto;
-  border: none;
-  border-bottom: 1px solid #ddd;
-  background-color: transparent;
-  font-size: 12px;
-  width: 60%;
-}
+ .formItem label {
+   position: absolute;
+   font-size: 12px;
+   left: 22%;
+   top: 2px;
+   transition: all 0.2s linear;
+   color: burlywood;
+   font-weight: bold;
+ }
 
+ .formItem input {
+   margin-top: auto;
+   border: none;
+   border-bottom: 1px solid #ddd;
+   background-color: transparent;
+   font-size: 12px;
+   width: 60%;
+   padding-left: 12px;
+   height: 25px;
+ }
 
- .formItem input:focus{
-  outline: none;
-}
+ .formItem input:-webkit-autofill,
+ .formItem textarea:-webkit-autofill,
+ .formItem select:-webkit-autofill {
+   -webkit-box-shadow: 0 0 0 1000px white inset;
+ }
 
+ .formItem input[type=text]:focus,
+ .formItem input[type=password]:focus,
+ .formItem textarea:focus {
+   -webkit-box-shadow: 0 0 0 1000px white inset;
+ }
+
+ .formItem input:focus {
+   outline: none;
+ }

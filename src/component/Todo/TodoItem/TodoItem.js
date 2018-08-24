@@ -8,6 +8,7 @@ export default class Todolist extends React.Component{
         return(
             <div className={!!this.props.isDelete ?'deleted':''}>
                 <input 
+                
                 type="checkbox" 
                 onChange={this.handleChange.bind(this)}/>
                 <span className={!!this.props.status?'completed':''}>{this.props.item.content}</span>
@@ -17,6 +18,7 @@ export default class Todolist extends React.Component{
         )
     }
     handleChange(event){
+        console.log(event.target.value)
         !!this.props.onChange && this.props.onChange.call(null,event,this.props.item)
     }
     handleClick(event){

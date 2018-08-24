@@ -19,15 +19,22 @@ export default class UserDialog extends React.Component {
         }
     }
     render() {
-        console.log(this.state)
-        console.log(this.state.formData)
         const signInform= (
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <SignIn
                     value={this.state.formData}
                     onChange={this.handleChange.bind(this)} 
                 ></SignIn>
-                <Button value="登陆"></Button>
+                <div className="buttonWrapper">
+                    <Button value="登陆">
+                    </Button>
+                    <span className="fogetPassword">忘记密码</span>
+                </div>
+                <div 
+                className="changesignStatus"
+                data-account="signUp"
+                onClick={this.handleClick.bind(this)}
+                >还没账号？点我注册</div>
             </form>
         )
         const signUpform= (
@@ -37,6 +44,10 @@ export default class UserDialog extends React.Component {
                     onChange={this.handleChange.bind(this)} 
                 ></SignUp>
                 <Button value="注册"></Button>
+                <div 
+                className="changesignStatus"
+                data-account="signIn"
+                onClick={this.handleClick.bind(this)}>我要登陆</div>
             </form>
         )
 
@@ -47,7 +58,7 @@ export default class UserDialog extends React.Component {
                     <div className="content">
                         {this.state.status==='signIn'? signInform : signUpform}
                     </div>
-                    <nav >
+                    {/* <nav >
                         <ol >
                             <li
                                 data-account="signIn"
@@ -60,7 +71,7 @@ export default class UserDialog extends React.Component {
                                 .handleClick
                                 .bind(this)}>注册</li>
                         </ol>
-                    </nav>
+                    </nav> */}
                 </div>
 
             </div>

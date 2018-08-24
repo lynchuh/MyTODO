@@ -27,7 +27,7 @@ function newSignForm (FormItem,itemArray){
         )
       })
       return (
-        <div >
+        <div className="formitems">
           {formArray}
         </div>
       )
