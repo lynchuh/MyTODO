@@ -6,7 +6,7 @@ export default class Todolist extends React.Component{
 
     render(){
         return(
-            <div className={!!this.props.isDelete ?'deleted':''}>
+            <div className={!!this.props.isDelete ?'deleted todoitem':'todoitem'}>
                 <input 
                 
                 type="checkbox" 

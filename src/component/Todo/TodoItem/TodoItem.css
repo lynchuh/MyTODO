@@ -1,0 +1,8 @@
+
+.todoitem{
+  border-bottom :1px solid red;
+  width: 80%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}

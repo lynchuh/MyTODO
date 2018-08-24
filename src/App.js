@@ -80,15 +80,17 @@ export default class App extends Component {
             onClick={this.handleNewtodoClick.bind(this)}
           />
           <div className="todoList">
-            <ol>
+            <ol className="navbar">
               <li 
                 data-liststatus="activeTodo" 
                 onClick={this.handleTodolistClick.bind(this)} 
-              >待办事项</li>  
+              > 待办事项</li>  
               <li data-liststatus="compeletedTodo" onClick={this.handleTodolistClick.bind(this)} >完成事项</li>  
               <li data-liststatus="deletedTodo" onClick={this.handleTodolistClick.bind(this)} >删除事项</li>  
-            </ol> 
+            </ol > 
+            <ol className="itemlist">
             {todos[this.state.liststatus]}           
+            </ol>
           </div>
         </main>
       </div>
@@ -168,8 +170,6 @@ export default class App extends Component {
     delete todo['createDate']
     delete todo['content']
     TodoModel.update(item.id,todo,(item)=>{
-      console.log('我已经update了，下面是update的item')
-      console.log(item)
       let todoListCopy=JSON.parse(JSON.stringify(this.state.todoList))
       todoListCopy.map((todo)=>{
         todo= todo.id===item.id ? item : todo

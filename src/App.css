@@ -62,6 +62,37 @@
   padding: 15px 25px;
   color: aliceblue;
 }
+.App main .todoList ol.itemlist{
+  width: 100%;
+}
+.App main .todoList ol.itemlist li{
+  width: 100%;
+  margin: 10px 0;
+  border:1px solid green
+}
+
+
+
+
+
+.App main .todoList ol.navbar {
+  display:flex;
+  justify-content: space-around;
+  margin: 16px 0;
+}
+
+.App main .todoList ol.navbar li{
+  margin:0 6px;
+  border:1px solid #ddd;
+  padding:  8px 1em ;
+  font-size: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px #383838;
+}
+
+
+
 .App main .todoList .completed{
   text-decoration: line-through;
   color: grey;
