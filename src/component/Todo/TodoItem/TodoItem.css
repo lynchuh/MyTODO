@@ -1,8 +1,40 @@
 
 .todoitem{
-  border-bottom :1px solid red;
-  width: 80%;
+  /* border-bottom :1px solid red; */
+  padding: 6px;
+  /* width: 80%; */
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  margin:0 auto;
+}
+
+.todoitem label{
+  position: relative;
+  border: 1px solid #FFBC1C;
+  overflow: hidden;
+  margin-right: 10px;
+  display: flex;
+  height: 20px;
+  width: 20px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.todoitem label img{
+  height: 100%;
+  width: 100%;
+}
+
+
+
+.todoitem label input{
+  position: absolute;
+  top:-100%;left: 0;
+}
+
+.todoitem button{
+  margin-left:auto;
 }

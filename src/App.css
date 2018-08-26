@@ -34,9 +34,8 @@
   right: 16px;
   font-size: 12px;
   color: antiquewhite;
+  cursor:pointer;
 }
-
-
 
 .App main{
   flex:1;
@@ -68,17 +67,16 @@
 .App main .todoList ol.itemlist li{
   width: 100%;
   margin: 10px 0;
-  border:1px solid green
+  padding-bottom: 3px;
+  border-bottom:1px solid rgba(255, 187, 28, 0.274);
+
 }
-
-
-
-
 
 .App main .todoList ol.navbar {
   display:flex;
   justify-content: space-around;
   margin: 16px 0;
+  width:100%;
 }
 
 .App main .todoList ol.navbar li{
@@ -100,6 +98,6 @@
 .App main .todoList .deleted{
 color: grey
 }
-.App main .todoList .deleted input{
+.App main .todoList .deleted label{
   display: none;
 }

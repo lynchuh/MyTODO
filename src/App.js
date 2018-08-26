@@ -34,6 +34,7 @@ export default class App extends Component {
             <Todoitem
               item={todoItem}
               isDelete={todoItem.isDelete}
+              isCompeleted={todoItem.isCompeleted}
               status={todoItem.isCompeleted}
               onChange={this.handleTodoitemChange.bind(this)}
               onClick={this.handTodoitemClick.bind(this)}
@@ -57,9 +58,6 @@ export default class App extends Component {
         todos.deletedTodo.push(deletedTodo)
       }
     });
-
-
-
 
     return (
       <div className="App">
