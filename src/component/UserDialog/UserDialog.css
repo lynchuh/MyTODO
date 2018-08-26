@@ -15,8 +15,8 @@ ol,li{
 }
 .userDialogWrapper .userDialogContent {
   box-sizing: border-box;
-  width: 310px;
-  height: 310px;
+  width: 350px;
+  height: 350px;
   background: #fff;
   display: flex;
   flex-direction: column;
@@ -65,14 +65,13 @@ ol,li{
   margin-top: 18px;
   width: 60%;
 }
-.userDialogWrapper .userDialogContent .content form  .fogetPassword{
+.userDialogWrapper .userDialogContent .content form  .tips{
   position: absolute;
-  right: 22%;
-  bottom: -20%;
+  right: 20%;
+  bottom: -30%;
   font-size: 12px;
   margin:0;
-  color: #918b8b;
-  cursor: pointer;
+  color: red;
 }
 .userDialogWrapper .userDialogContent nav {
   margin-top: auto;

@@ -29,7 +29,7 @@ export function signUp({
     }
     successfn && successfn.call(null,userInfo)
   },(error)=>{
-    console.log(error)
+    errorfn && errorfn.call(null,error.code)
   })
 }
 
@@ -44,7 +44,7 @@ export function signIn({
     }
     successfn && successfn.call(null,userInfo)
   },(error)=>{
-    console.log(error)
+    errorfn && errorfn.call(null,error.code)
   })
 }
 

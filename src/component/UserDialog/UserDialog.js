@@ -16,6 +16,7 @@ export default class UserDialog extends React.Component {
                 userEmail:'',
                 passWord:'',
             },
+            tips:''
         }
     }
     render() {
@@ -28,7 +29,7 @@ export default class UserDialog extends React.Component {
                 <div className="buttonWrapper">
                     <Button value="登陆">
                     </Button>
-                    <span className="fogetPassword">忘记密码</span>
+                    <span className="tips">{this.state.tips}</span>
                 </div>
                 <div 
                 className="changesignStatus"
@@ -43,7 +44,11 @@ export default class UserDialog extends React.Component {
                     value={this.state.formData}
                     onChange={this.handleChange.bind(this)} 
                 ></SignUp>
-                <Button value="注册"></Button>
+                <div className="buttonWrapper">
+                    <Button value="注册">
+                    </Button>
+                    <span className="tips">{this.state.tips}</span>
+                </div>
                 <div 
                 className="changesignStatus"
                 data-account="signIn"
@@ -58,27 +63,11 @@ export default class UserDialog extends React.Component {
                     <div className="content">
                         {this.state.status==='signIn'? signInform : signUpform}
                     </div>
-                    {/* <nav >
-                        <ol >
-                            <li
-                                data-account="signIn"
-                                onClick={this
-                                .handleClick
-                                .bind(this)}>登陆</li>
-                            <li
-                                data-account="signUp"
-                                onClick={this
-                                .handleClick
-                                .bind(this)}>注册</li>
-                        </ol>
-                    </nav> */}
                 </div>
 
             </div>
         )
-
     }
-
 
     handleClick(event) {
         this.setState({
@@ -89,7 +78,8 @@ export default class UserDialog extends React.Component {
                 userName:'',
                 userEmail:'',
                 passWord:'',
-            }
+            },
+            tips:''
 
         })
     }
@@ -112,18 +102,53 @@ export default class UserDialog extends React.Component {
             passWord:passWord
         },(userInfo)=>{
             this.props.onlogIn && this.props.onlogIn.call(null,userInfo)
+        },(errorcode)=>{
+            console.log(errorcode)
+            switch(errorcode){
+                case 200:
+                    this._setTips('你的用户名呢？')
+                    break
+                case 201:
+                    this._setTips('你的密码呢？')
+                    break
+                case 210:
+                    this._setTips('您的密码与用户名不匹配')
+                    break
+                case 211:
+                    this._setTips('找不到该用户')
+                    break
+                case 219:
+                    this._setTips('登录失败次数超过限制，请稍候再试')
+                    break
+        
+            }
         })
     }
     _signUp(){
         let{userName,userEmail,passWord} =this.state.formData
+        if(!userName){
+            this._setTips('用户名不能为空')
+            return
+        }
         signUp({
             userName:userName,
             userEmail:userEmail,
             passWord:passWord
         },(userInfo)=>{
             this.props.onlogIn && this.props.onlogIn.call(null,userInfo)
-        },(error)=>{
-            //提示登陆错误信息
+        },(errorcode)=>{
+            switch(errorcode){
+                case 125:
+                    this._setTips('电子邮箱地址无效')
+                    break
+                case 202:
+                    this._setTips('该用户名已经被占用')
+                    break
+                case 203:
+                    this._setTips('电子邮箱地址已经被占用')
+                    break
+                    
+            }
         })
     }
     _changeFormData(keyword,event){
@@ -133,6 +158,11 @@ export default class UserDialog extends React.Component {
             formData: stateCopy
         })
 
+    }
+    _setTips(value){
+        this.setState({
+            tips: value
+        })
     }
 
 }
