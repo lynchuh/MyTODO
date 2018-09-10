@@ -13,7 +13,7 @@ PS：todolist的增删改中的删，这里并不是真正意义的“删”，�
 <img src="http://pdoyygimo.bkt.clouddn.com/logUp-min.png" width="400px"/> <img src="http://pdoyygimo.bkt.clouddn.com/%E5%88%A0%E9%99%A4-min.png" width="400px"/><img src="http://pdoyygimo.bkt.clouddn.com/logIn-min.png" width="400px"/><img src="http://pdoyygimo.bkt.clouddn.com/%E5%BE%85%E5%8A%9E-min.png" width="400px"/><img src="http://pdoyygimo.bkt.clouddn.com/%E5%AE%8C%E6%88%90-min.png" width="400px"/>
 
 ## 存在问题
-1. 视图方面：视图切换太过生硬，用户体验并不算十分完美，我曾尝试使用CSS 3 来增添交互效果，结果发现动画流畅度并不如意，由于知识短板缘故，这个有待优化
+1. 视图方面：视图切换太过生硬，用户体验并不算十分完美，我曾尝试使用CSS 3 来增添交互效果，结果发现动画流畅度并不如意，由于知识短板缘故，这个有待优化，后续会结合CSSTransitionGroup来创建组件过场动画，优化体验。
 2. 路由设置：由于这是第二次使用react开发的项目，目的更多是体验并深入学习react，很多react生态下的技术栈并没有使用，如react-router等。
 3. 数据传递与管理：当一个项目的功能/交互实现越多，或组件划分越细致，你就会迫切地感觉到Redux的重要性了。由于react的单一数据流的缘故，数据只能经由props自上而下流动，很多时候数据的传递显得特别冗长。
 
